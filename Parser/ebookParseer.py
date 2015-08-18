@@ -2,6 +2,8 @@
 
 import xml.sax
 import re
+import urllib
+
 
 class MovieHandler( xml.sax.ContentHandler ):
    def __init__(self):
@@ -32,7 +34,18 @@ class MovieHandler( xml.sax.ContentHandler ):
          if (re.match('.*(pdf)$',content)):
             self.key = content
             print "http://files2.syncfusion.com/"+self.key
-            
+
+   
+def download(file):
+      with open(file) as fp:
+         for line in fp:
+            name = line.split("/")[5]
+            print len(name), name
+            name = name.rstrip('\n')
+            print len(line), line
+            testfile = urllib.URLopener()
+            testfile.retrieve(line,name)
+
       
   
 if ( __name__ == "__main__"):
@@ -46,7 +59,8 @@ if ( __name__ == "__main__"):
    Handler = MovieHandler()
    parser.setContentHandler( Handler )
    
-   parser.parse("Ebooks.xml")
+   #parser.parse("Ebooks.xml")
+   download("ebook.txt")
 
 
 #ab = "aaa"
